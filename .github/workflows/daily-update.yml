@@ -1,9 +1,12 @@
 name: Daily Backend & DevOps Update
 
+permissions:
+  contents: write
+
 on:
-  schedule:
-    - cron: "30 18 * * *" # Daily (UTC) → 12:00 AM IST
   workflow_dispatch:
+  schedule:
+    - cron: "30 18 * * *"  # 12:00 AM IST
 
 jobs:
   update-notes:
@@ -19,14 +22,14 @@ jobs:
           FILE="logs/$DATE.md"
 
           echo "## $DATE" > $FILE
-          echo "- Reviewed backend or DevOps concepts" >> $FILE
-          echo "- Studied system design / cloud best practices" >> $FILE
+          echo "- Reviewed backend & DevOps concepts" >> $FILE
+          echo "- Worked on system design or cloud topics" >> $FILE
           echo "- Improved understanding of production systems" >> $FILE
 
       - name: Commit changes
         run: |
-          git config user.name "vaibhavi-rathod"
-          git config user.email "rathodvaibhavi18499@gmail.com"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
           git add .
           git commit -m "docs: daily backend & devops notes ($DATE)" || exit 0
           git push

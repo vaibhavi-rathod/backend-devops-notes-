@@ -1,0 +1,32 @@
+name: Daily Backend & DevOps Update
+
+on:
+  schedule:
+    - cron: "30 18 * * *" # Daily (UTC) → 12:00 AM IST
+  workflow_dispatch:
+
+jobs:
+  update-notes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate daily learning note
+        run: |
+          DATE=$(date '+%Y-%m-%d')
+          mkdir -p logs
+          FILE="logs/$DATE.md"
+
+          echo "## $DATE" > $FILE
+          echo "- Reviewed backend or DevOps concepts" >> $FILE
+          echo "- Studied system design / cloud best practices" >> $FILE
+          echo "- Improved understanding of production systems" >> $FILE
+
+      - name: Commit changes
+        run: |
+          git config user.name "vaibhavi-rathod"
+          git config user.email "rathodvaibhavi18499@gmail.com"
+          git add .
+          git commit -m "docs: daily backend & devops notes ($DATE)" || exit 0
+          git push
